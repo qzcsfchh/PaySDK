@@ -1,0 +1,4 @@
+rootProject.name = "PaySDK"
+include ':app'
+include ':pay'
+include ':lib-jars'

@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField 'String','buildTime',"\"${new Date().format("yyyy-MM-dd HH:mm:ss")}\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.0'
+    implementation 'com.google.code.gson:gson:2.8.5@jar'
+    compileOnly project(':lib-jars')
+}
+
+apply plugin: 'maven'
+def isLocal = true
+uploadArchives {
+    repositories{
+        mavenDeployer {
+            mavenLocal()
+            mavenLocal()
+            pom.groupId = 'io.github.qzcsfchh'
+            pom.artifactId = 'android-pay'
+            pom.version = android.defaultConfig.versionName
+            println "implementation '${pom.groupId}:${pom.artifactId}:${pom.version}'"
+        }
+    }
+}
